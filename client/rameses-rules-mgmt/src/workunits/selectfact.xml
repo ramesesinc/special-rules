@@ -1,0 +1,9 @@
+<workunit>
+    <invokers>
+        <invoker type="rule:selectfact" caption="Select a Fact Type" action="init" target="popup"/>
+    </invokers>
+    <code class="com.rameses.rulemgmt.models.SelectFactModel" />
+    <pages>
+        <page template="com.rameses.rulemgmt.SelectFactPage"/>
+    </pages>
+</workunit>

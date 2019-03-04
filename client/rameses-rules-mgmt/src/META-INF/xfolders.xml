@@ -1,0 +1,9 @@
+<folders>
+    <folder id="explorer">
+        <folder id="developer" caption="Developer" index="-100">
+            <folder id="rulemgmt" caption="Rule Management">
+                <folder id="ruledefs" caption="Rule Definitions"/>
+            </folder>    
+        </folder> 
+    </folder>
+</folders>

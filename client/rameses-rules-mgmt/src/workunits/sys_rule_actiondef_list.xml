@@ -1,0 +1,11 @@
+<workunit extends="com/rameses/seti2/templates/CrudList.xml" 
+          schemaName="sys_rule_actiondef" orderBy="sortorder">
+    <invokers>
+        <invoker type="sys_ruleset:list:listActions" caption="Actions" 
+                 action="init" index="22" target="self" />
+        
+        <invoker folderid="/explorer/developer/rulemgmt" caption="Shared Actions" 
+                 action="init" index="2" target="window" role="DEV"/>
+    </invokers>
+    <code class="com.rameses.rulemgmt.models.ActionDefListModel" />
+</workunit>

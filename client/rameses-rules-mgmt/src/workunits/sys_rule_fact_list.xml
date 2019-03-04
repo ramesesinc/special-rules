@@ -1,0 +1,11 @@
+<workunit extends="com/rameses/seti2/templates/CrudList.xml" 
+          schemaName="sys_rule_fact" orderBy="sortorder">
+    <invokers>
+        <invoker type="sys_ruleset:list:listActions" caption="Facts" 
+                 action="init" index="21" target="self" />
+        
+        <invoker folderid="/explorer/developer/rulemgmt" caption="Shared Facts" 
+                 action="init" index="1" target="window" role="DEV" />
+    </invokers>
+    <code class="com.rameses.rulemgmt.models.FactListModel" />
+</workunit>
