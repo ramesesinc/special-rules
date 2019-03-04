@@ -16,3 +16,9 @@ Thumbs.db
 /**/nbproject/groovy-build.xml
 /**/.terminal
 /**/Thumbs.db
+/server/rameses-osiris3-rules/nbproject/private/
+/client/rameses-rules-mgmt/nbproject/private/
+/client/rameses-rules-mgmt/build/
+/client/rameses-rules-mgmt/dist/
+/server/rameses-osiris3-rules/build/
+/server/rameses-osiris3-rules/dist/
