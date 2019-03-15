@@ -17,8 +17,12 @@ import com.rameses.io.*;
 
 class RuleExportController {
 
-    @Service("RuleExporterService")
-    def service;
+    @Caller
+    def caller;
+    
+    def getService() {
+        InvokerProxy.instance.create("RuleExporterService", null, caller.getConnection() );
+    }
 
     def selectedFrom;
     def selectedItem;

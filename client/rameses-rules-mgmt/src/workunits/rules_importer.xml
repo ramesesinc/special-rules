@@ -17,8 +17,12 @@
         
         class RuleImportController {
         
-            @Service("RuleExporterService")
-            def service;
+            @Caller
+            def caller;
+
+            def getService() {
+                InvokerProxy.instance.create("RuleExporterService", null, caller.getConnection() );
+            }
         
             def ruleset;
             def file;
