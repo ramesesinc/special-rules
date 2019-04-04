@@ -36,7 +36,7 @@ class RuleActionDefService  {
 
 		em.save(o, "actiondef");
 		o._deleted_params?.each { 
-			em.delete(it, "actiondef_param");
+			if(it.objid) em.delete(it, "actiondef_param");
 		}
 		int i = 1;
 		o.params.each {

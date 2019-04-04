@@ -15,8 +15,12 @@
         
         class RuleGroupLookup {
         
-            @Service("QueryService")
-            def querySvc;
+            @Caller
+            def caller;
+        
+            def getQuerySvc() {
+                return caller.getQueryService();
+            }
             
             def domain;
             def handler;
