@@ -135,7 +135,7 @@ class FactModel extends CrudFormModel {
         devService.refactor( [oldid:entity.objid, newid: entity.factclass ] ); 
         entity.objid = entity.factclass;
         open();
-        return "_close";
+        return null;
     }
     
     def merge() {

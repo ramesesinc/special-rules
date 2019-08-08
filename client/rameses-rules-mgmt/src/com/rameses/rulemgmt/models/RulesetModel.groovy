@@ -58,7 +58,6 @@ class RulesetModel extends CrudFormModel {
     
     def openFact() {
         if(!selectedFact) throw new Exception("Please select a fact");
-        MsgBox.alert("connection pass " + connection);
         return Inv.lookupOpener("sys_rule_fact:open", [entity: [objid: selectedFact.rulefact], connection: connection ]);
     }
 
