@@ -11,6 +11,7 @@ class RulesetModel extends CrudFormModel {
            
     def selectedFact;
     def selectedAction;
+    def selectedGroup;
     
     public def getRoot() {
         return caller.getRoot();
@@ -86,4 +87,9 @@ class RulesetModel extends CrudFormModel {
         return Inv.lookupOpener("sys_rule_actiondef:open", [entity: [objid: selectedAction.actiondef], connection:connection ]);
     }
 
+    void removeGroup() {
+        if(!selectedGroup) throw new Exception("Please remove a group");
+        removeItem("groups", selectedGroup);
+    }
+    
 }
