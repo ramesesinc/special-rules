@@ -15,6 +15,9 @@
         
             @Binding
             def binding;
+            
+            @Caller
+            def caller;
         
             def domain;
             def lookupHandler;
