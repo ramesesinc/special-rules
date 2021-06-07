@@ -12,12 +12,17 @@ package com.rameses.osiris3.rules;
 import com.rameses.osiris3.core.MainContext;
 import com.rameses.osiris3.core.OsirisServer;
 import com.rameses.util.Service;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
@@ -27,6 +32,9 @@ import org.drools.builder.KnowledgeBuilderError;
 import org.drools.builder.KnowledgeBuilderErrors;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
+import org.drools.compiler.DrlParser;
+import org.drools.compiler.DroolsError;
+import org.drools.io.Resource;
 import org.drools.io.ResourceFactory;
 
 /**
@@ -56,8 +64,32 @@ public class RuleContext {
     
     public void build(List<Reader> readers) throws Exception {
         KnowledgeBuilder builder = KnowledgeBuilderFactory.newKnowledgeBuilder(conf);
-        for(Reader r: readers) {
-            builder.add( ResourceFactory.newReaderResource(r), ResourceType.DRL );
+        for (Reader r: readers) {
+            byte[] bytes = toBytes( r ); 
+            boolean pass = false; 
+            try {
+                r = new InputStreamReader( new ByteArrayInputStream( bytes ));
+                Resource res = ResourceFactory.newReaderResource( r ); 
+                DrlParser parser = new DrlParser(); 
+                parser.parse( res.getInputStream()); 
+                if ( parser.hasErrors()) {
+                    System.err.println( buildError( parser, bytes )); 
+                } 
+                else {
+                    pass = true; 
+                }
+            }
+            catch(Throwable t) {
+                System.out.println("");
+                System.err.println("=> RuleContext.build: parse error caused by "+ t.getMessage());
+                System.out.println( new String(bytes, "UTF-8")); 
+            }
+
+            if ( pass ) {
+                r = new InputStreamReader( new ByteArrayInputStream( bytes ));
+                Resource res = ResourceFactory.newReaderResource( r );             
+                builder.add( res, ResourceType.DRL );
+            }
         }
         if(builder.hasErrors()) {
             KnowledgeBuilderErrors  errs = builder.getErrors();
@@ -142,5 +174,36 @@ public class RuleContext {
     }
     
     
+    private byte[] toBytes( Reader reader ) throws Exception {
+        StringBuilder buff = new StringBuilder();
+        try {
+            int read = -1;
+            char[] readChars = new char[1024]; 
+            while ((read = reader.read(readChars)) != -1) {
+                buff.append(readChars, 0, read); 
+            }
+            readChars = null; 
+        }
+        finally {
+            try { reader.close(); }catch(Throwable t){;} 
+        }
+        
+        return buff.toString().getBytes("UTF-8"); 
+    }
     
+    private String buildError( DrlParser parser, byte[] sourceData ) {
+        StringBuilder buff = new StringBuilder();
+        for ( DroolsError dre : parser.getErrors()) {
+            buff.append('\n').append( dre.getMessage()); 
+        }
+        if ( sourceData != null && sourceData.length > 0 ) {
+            buff.append('\n');
+            try {  
+                buff.append( new String( sourceData, "UTF-8"));
+            } catch (UnsupportedEncodingException ex) {
+                buff.append( new String( sourceData));
+            }
+        }
+        return buff.toString(); 
+    }
 }
