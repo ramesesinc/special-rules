@@ -65,7 +65,7 @@ public class RuleContext {
     public void build(List<Reader> readers) throws Exception {
         KnowledgeBuilder builder = KnowledgeBuilderFactory.newKnowledgeBuilder(conf);
         for (Reader r: readers) {
-            byte[] bytes = toBytes( r ); 
+            byte[] bytes = toBytes( r );             
             boolean pass = false; 
             try {
                 r = new InputStreamReader( new ByteArrayInputStream( bytes ));
